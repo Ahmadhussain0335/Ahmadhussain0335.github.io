@@ -1,0 +1,12 @@
+node_modules
+.next
+.env*
+!.env.example
+*.tsbuildinfo
+.DS_Store
+
+# Raw review screenshots (contain client photos); the site uses the transcribed text instead.
+public/images/Screenshot*
+
+# LaTeX CV sources (contain phone number and photo); kept locally for Overleaf, not published.
+public/resume/overleaf

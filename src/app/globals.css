@@ -1,0 +1,704 @@
+@import "tailwindcss";
+
+/* Dark mode follows the data-theme attribute set by the theme script in layout.tsx. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --background: #ffffff;
+  --surface: #f8fafc;
+  --surface-2: #e2e8f0;
+  --card: #ffffff;
+  --foreground: #0f172a;
+  --muted: #475569;
+  --subtle: #64748b;
+  --border: #e2e8f0;
+  --strong: #cbd5e1;
+  --stronger: #94a3b8;
+  --accent: #1e40af;
+  --accent-strong: #1e3a8a;
+  --accent-soft: #eff6ff;
+  --accent-line: #bfdbfe;
+  --on-accent: #ffffff;
+  --grid-line: #eef2f7;
+  --name-from: #0f172a;
+  --name-to: #1e40af;
+  --selection: #dbeafe;
+}
+
+[data-theme="dark"] {
+  --background: #0b1120;
+  --surface: #0f172a;
+  --surface-2: #1e293b;
+  --card: #111a2e;
+  --foreground: #e2e8f0;
+  --muted: #a3b1c6;
+  --subtle: #8b9ab0;
+  --border: #1e293b;
+  --strong: #334155;
+  --stronger: #475569;
+  --accent: #60a5fa;
+  --accent-strong: #93c5fd;
+  --accent-soft: #132242;
+  --accent-line: #1e3a8a;
+  --on-accent: #0b1120;
+  --grid-line: rgba(148, 163, 184, 0.07);
+  --name-from: #f1f5f9;
+  --name-to: #60a5fa;
+  --selection: #1e3a8a;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
+  --color-border: var(--border);
+  --color-strong: var(--strong);
+  --color-stronger: var(--stronger);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-line: var(--accent-line);
+  --color-on-accent: var(--on-accent);
+  --color-grid-line: var(--grid-line);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+  color-scheme: light;
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+::selection {
+  background: var(--selection);
+  color: var(--foreground);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      /* --i staggers siblings (set by <FadeIn index>). */
+      animation-range: entry calc(var(--i, 0) * 6%) entry calc(35% + var(--i, 0) * 6%);
+    }
+
+    .scroll-progress {
+      animation: grow-x linear both;
+      animation-timeline: scroll(root);
+    }
+
+    .timeline-progress {
+      animation: grow-y linear both;
+      animation-timeline: view();
+      animation-range: entry 20% exit 60%;
+    }
+  }
+}
+
+/* Fallback for browsers without scroll-driven animations; see RevealController. */
+.reveal-pending {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.reveal-in {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes grow-x {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes grow-y {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@keyframes portrait-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  33% {
+    transform: translate3d(4%, -6%, 0) scale(1.06);
+  }
+  66% {
+    transform: translate3d(-5%, 4%, 0) scale(0.96);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes shine {
+  from {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  to {
+    transform: translateX(260%) skewX(-20deg);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes draw-line {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes rise-in-solid {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes word-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-rise {
+    animation: rise-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  /* For the LCP heading: movement only, so the text is painted (and counted) immediately. */
+  .animate-rise-solid {
+    animation: rise-in-solid 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  .animate-word-in {
+    animation: word-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-portrait {
+    animation: portrait-in 1s cubic-bezier(0.22, 1, 0.36, 1) 150ms both;
+  }
+
+  .animate-float {
+    animation: float var(--duration, 6s) ease-in-out var(--delay, 0ms) infinite;
+    will-change: transform;
+  }
+
+  .animate-drift {
+    animation: drift var(--duration, 18s) ease-in-out infinite;
+    will-change: transform;
+  }
+
+  .animate-marquee {
+    animation: marquee var(--duration, 40s) linear infinite;
+    will-change: transform;
+  }
+
+  .marquee:hover .animate-marquee {
+    animation-play-state: paused;
+  }
+
+  .animate-pulse-ring {
+    animation: pulse-ring 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .btn-shine:hover::after {
+    animation: shine 0.9s ease;
+  }
+
+  .eyebrow-line {
+    transform-origin: left;
+    animation: draw-line 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-timeline: view();
+    animation-range: entry 10% entry 60%;
+  }
+}
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+  pointer-events: none;
+}
+
+/* Cursor-following highlight; --mx/--my are set by <Spotlight>. */
+.spotlight {
+  --mx: 50%;
+  --my: 0%;
+  isolation: isolate;
+}
+
+/* z-index -1 inside the isolated card: above its background, below its content. */
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--mx) var(--my), rgba(30, 64, 175, 0.07), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.spotlight:hover::before {
+  opacity: 1;
+}
+
+.text-gradient {
+  background: linear-gradient(100deg, var(--name-from) 20%, var(--name-to) 55%, var(--name-from) 90%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Finite: background-position animates on the main thread, so it must not loop forever. */
+  .text-gradient {
+    animation: gradient-pan 4s ease-in-out 600ms 2 alternate both;
+  }
+}
+
+@keyframes gradient-pan {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes signal {
+  0% {
+    transform: translate(-50%, -50%) scale(0.55);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.45);
+    opacity: 0;
+  }
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+/* Scroll-linked word highlight for <Statement>; falls back to full colour. */
+@keyframes word-fill {
+  from {
+    color: rgba(255, 255, 255, 0.22);
+  }
+  to {
+    color: rgba(255, 255, 255, 1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-spin-slow {
+    animation: spin 18s linear infinite;
+    will-change: transform;
+  }
+
+  .animate-signal {
+    opacity: 0;
+    animation: signal 3.6s cubic-bezier(0.22, 1, 0.36, 1) var(--delay, 0s) infinite;
+  }
+
+  .animate-scroll-cue {
+    animation: scroll-cue 1.8s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-signal {
+    display: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .statement-text {
+      view-timeline: --statement block;
+    }
+
+    .statement-word {
+      animation: word-fill linear both;
+      animation-timeline: --statement;
+      animation-range: cover var(--start) cover var(--end);
+    }
+  }
+}
+
+/* ---------- Slider (see components/ui/Slider.tsx) ---------- */
+.slider-track {
+  scrollbar-width: none;
+  cursor: grab;
+}
+
+.slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.slider-track.is-dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  cursor: grabbing;
+  user-select: none;
+}
+
+/* Lets the first and last slide sit centred; gap-6 (24px) makes up the rest. */
+.slider-spacer {
+  flex-basis: max(0px, calc((100% - var(--slide)) / 2 - 24px));
+}
+
+@keyframes slide-focus {
+  0% {
+    transform: scale(0.9) translateY(10px);
+  }
+  42%,
+  58% {
+    transform: none;
+  }
+  100% {
+    transform: scale(0.9) translateY(10px);
+  }
+}
+
+@keyframes slider-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.slider-progress {
+  transform: scaleX(0);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .slider-progress {
+    animation-name: slider-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+}
+
+/* Centre slide full size, neighbours slightly smaller — driven by each slide's position in the track. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .slider-focus {
+      animation: slide-focus linear both;
+      animation-timeline: view(inline);
+    }
+  }
+}
+
+/* Soft edges where neighbouring slides are clipped by the container. */
+@media (min-width: 640px) {
+  .slider-fade {
+    mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%);
+  }
+}
+
+/* ---------- Scroll-linked depth (hero) and heading reveals ---------- */
+@keyframes parallax-y {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, var(--parallax, 80px), 0);
+  }
+}
+
+@keyframes hero-recede {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0.15;
+    transform: translate3d(0, -40px, 0) scale(0.97);
+  }
+}
+
+@keyframes heading-reveal {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translate3d(0, 0.6em, 0);
+  }
+  to {
+    clip-path: inset(0 0 -10% 0);
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .parallax {
+      animation: parallax-y linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+      will-change: transform;
+    }
+
+    /* Desktop only: on phones the hero is taller than the screen, so fading it would hide text still being read. */
+    @media (min-width: 1024px) {
+      .hero-recede {
+        transform-origin: top left;
+        animation: hero-recede linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 85vh;
+      }
+    }
+
+    .heading-reveal {
+      animation: heading-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 5% entry 45%;
+    }
+  }
+}
+
+/* ---------- Pointer effects (see CursorFollower / Spotlight) ---------- */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  [data-magnetic] {
+    transform: translate3d(var(--mag-x, 0px), var(--mag-y, 0px), 0);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .spotlight[data-tilt] {
+    transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition:
+      transform 0.25s ease-out,
+      border-color 0.3s,
+      box-shadow 0.3s,
+      translate 0.3s;
+  }
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 70;
+  pointer-events: none;
+  border-radius: 9999px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--accent);
+}
+
+.cursor-ring {
+  width: 0;
+  height: 0;
+}
+
+/* Centred on the pointer; sized (not scaled) so the label text stays crisp. */
+.cursor-ring > span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  translate: -50% -50%;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  font: 600 10px/1 var(--font-sans), sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: transparent;
+  transition:
+    width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.3s,
+    border-color 0.3s,
+    color 0.2s,
+    scale 0.15s;
+}
+
+.cursor-visible .cursor-dot,
+.cursor-visible .cursor-ring {
+  opacity: 1;
+}
+
+.cursor-hover .cursor-ring > span {
+  width: 56px;
+  height: 56px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.cursor-label .cursor-ring > span {
+  width: 76px;
+  height: 76px;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.cursor-label .cursor-dot {
+  opacity: 0;
+}
+
+.cursor-down .cursor-ring > span {
+  scale: 0.85;
+}

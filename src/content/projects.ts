@@ -1,0 +1,283 @@
+import type { Project } from "./types";
+
+export const projects: Project[] = [
+  {
+    slug: "nx-nexthmi",
+    name: "NX NextHMI",
+    tagline: "Flutter vehicle-control gateway app",
+    seoTitle: "NX NextHMI: Flutter Automotive App with BLE & CAN",
+    company: "MRS Technologies",
+    client: "Arnold NextG",
+    role: "Senior Software Engineer",
+    period: "Nov 2022 – Oct 2023",
+    domain: "Automotive",
+    platforms: ["Flutter", "Android", "iOS"],
+    summary:
+      "Flutter vehicle-control gateway with a UI generated at runtime from XML device configuration and real-time CAN data streamed over BLE.",
+    overview: [
+      "NX NextHMI is an integrated hardware and software solution by Arnold NextG for managing secondary vehicle functions over CAN, replacing separate auxiliary control systems with one interface. I built the companion app entirely in Flutter.",
+      "Instead of hard-coding screens, the app loads XML configuration from the server and generates its widget tree at runtime, so new configurations and updates ship without hardware changes. Live CAN data reaches the app over Bluetooth Low Energy and is bridged into Flutter through platform channels to native Android and iOS code. The app is published on the App Store and Google Play.",
+    ],
+    contributions: [
+      "Built the dynamic, configuration-driven UI: server-delivered XML parsed into widget definitions, rendered with GetX state management.",
+      "Implemented real-time BLE/CAN data streaming and the platform-channel bridge between Flutter and native code.",
+      "Implemented vehicle controls for doors, windows, cassette lift, warning system, ignition, horn and air conditioning, including motion-based control from the accelerometer and gyroscope.",
+      "Added deep linking for direct navigation into specific device and control screens.",
+      "Owned App Store and Google Play releases, including code signing, independently.",
+    ],
+    engineering: [
+      { label: "Device communication", detail: "BLE transport carrying CAN data between the vehicle gateway and the app." },
+      { label: "Native bridging", detail: "Flutter platform channels to Android and iOS for BLE and CAN handling." },
+      { label: "Dynamic UI", detail: "Runtime widget generation from server-delivered XML configuration; updates without hardware changes." },
+      { label: "Sensors", detail: "Accelerometer and gyroscope driven vehicle controls." },
+      { label: "Release", detail: "App Store Connect and Google Play Console, code signing owned end to end." },
+    ],
+    tech: ["Flutter", "Dart", "GetX", "BLE", "CAN", "Platform Channels", "XML Parsing", "Deep Linking", "Accelerometer", "Gyroscope"],
+    distribution: ["App Store", "Google Play"],
+    links: {
+      playStore: "https://play.google.com/store/apps/details?id=com.arnoldnextg.android",
+      appStore: "https://apps.apple.com/us/app/nx-nexthmi/id6738198334",
+    },
+    screenshots: [
+      { src: "/images/projects/nx-nexthmi/1.webp", alt: "NX NextHMI start screen with buttons for the starter, gear selection (P, R, N, D), hazard lights, door locks and ramp", width: 1080, height: 810 },
+      { src: "/images/projects/nx-nexthmi/2.webp", alt: "NX NextHMI climate screen with auto, AC, recirculation, blower, temperature and seat-heating controls", width: 1080, height: 810 },
+      { src: "/images/projects/nx-nexthmi/3.webp", alt: "NX NextHMI window screen with buttons to open and close the left, right and all windows", width: 1080, height: 810 },
+      { src: "/images/projects/nx-nexthmi/4.webp", alt: "NX NextHMI menu screen with front and rear window heating, maximum blower, and shortcuts to Assist, Menu and Climate", width: 1080, height: 810 },
+    ],
+    screenshotCredit: "Screenshots: Google Play listing © Arnold NextG GmbH",
+    featured: true,
+  },
+  {
+    slug: "connected-logger-gateway",
+    name: "Connected Logger Gateway",
+    tagline: "Android app for automotive IoT data logging",
+    seoTitle: "Connected Logger Gateway: Android BLE & MQTT App",
+    company: "MRS Technologies",
+    role: "Senior Software Engineer",
+    period: "Apr 2021 – Present",
+    domain: "Automotive · Fleet management",
+    platforms: ["Android"],
+    summary:
+      "Android control app for an ECE- and RED-certified data logger that records CAN and LIN machine buses: BLE pairing, live CAN signals, GPS tracking and MQTT to the cloud.",
+    overview: [
+      "The Connected Logger is an ECE- and RED-certified smart data-logging device that captures and stores data from multiple machine buses, CAN and LIN. Its native Android app is used to configure and maintain the hardware in the field.",
+      "The app discovers and securely pairs with the logger over BLE, streams CAN signals and vehicle events in real time, tracks GPS position and exports flash logs. Logs are stored offline-first, and MQTT carries lightweight messaging between the devices and the Spoke Zone cloud server. The Android app is published on Google Play as Conn.Logger, with an iOS version on the App Store.",
+    ],
+    contributions: [
+      "Implemented BLE (GATT) device discovery, secure pairing and live CAN J1939 / OBD-II signal streaming.",
+      "Built a reactive live dashboard for CAN signals and vehicle events in Jetpack Compose.",
+      "Designed the Room persistence layer with schema migrations for offline log storage and backend sync.",
+      "Implemented MQTT messaging between the devices and the Spoke Zone cloud server.",
+      "Automated Google Play delivery with Fastlane and GitHub Actions, backed by JUnit/Mockito unit tests and Espresso/UI Automator UI tests.",
+    ],
+    engineering: [
+      { label: "Hardware", detail: "Configuration and maintenance of a certified (ECE, RED) logger recording CAN and LIN buses." },
+      { label: "BLE", detail: "GATT-based discovery, secure pairing and continuous signal streaming." },
+      { label: "Vehicle protocols", detail: "CAN J1939 and OBD-II signal handling." },
+      { label: "Cloud messaging", detail: "MQTT between devices and the Spoke Zone cloud server." },
+      { label: "Offline-first data", detail: "Room with versioned schema migrations and backend sync." },
+      { label: "Architecture", detail: "MVVM with Dagger dependency injection and a reactive Compose UI." },
+      { label: "Quality & CI/CD", detail: "JUnit, Mockito, Espresso, UI Automator; Fastlane and GitHub Actions pipeline." },
+    ],
+    tech: ["Kotlin", "Jetpack Compose", "MVVM", "Dagger", "BLE / GATT", "CAN J1939", "LIN", "OBD-II", "MQTT", "Room", "Fastlane", "JUnit", "Espresso"],
+    distribution: ["Google Play", "App Store"],
+    links: {
+      playStore: "https://play.google.com/store/apps/details?id=com.mrs.gateway",
+      appStore: "https://apps.apple.com/app/conn-logger/id1584295929",
+    },
+    screenshots: [
+      { src: "/images/projects/connected-logger-gateway/1.webp", alt: "Conn.Logger device list showing nearby Connected Logger devices to pair with", width: 800, height: 1421 },
+      { src: "/images/projects/connected-logger-gateway/2.webp", alt: "Conn.Logger live data screen listing timestamped CAN frames", width: 800, height: 1421 },
+      { src: "/images/projects/connected-logger-gateway/3.webp", alt: "Conn.Logger live data screen showing the machine's GPS position on a map", width: 800, height: 1421 },
+      { src: "/images/projects/connected-logger-gateway/4.webp", alt: "Conn.Logger configuration screen with BLE, LTE, Wi-Fi, CAN, HTTP and MQTT settings", width: 800, height: 1421 },
+    ],
+    screenshotCredit: "Screenshots: Google Play listing © MRS Electronic GmbH & Co. KG",
+    featured: true,
+  },
+  {
+    slug: "mtronic",
+    name: "MTronic",
+    tagline: "Android smart home automation app",
+    seoTitle: "MTronic: Android Smart Home App with BLE Mesh",
+    company: "MRS Technologies",
+    role: "Senior Software Engineer",
+    period: "May 2022 – Present",
+    domain: "IoT · Smart home",
+    platforms: ["Android"],
+    summary:
+      "Android app for smart home device control: provisioning, scenes, automations and OTA updates over BLE and nRF Mesh, backed by AWS Amplify.",
+    overview: [
+      "MTronic is a home automation system with voice assistant compatibility, and its native Android application controls the smart home hardware. Users onboard devices, group them into scenes and automations, and manage them through a cloud backend built on AWS Amplify, with OAuth 2.0 sign-in through AWS Cognito.",
+      "Device onboarding uses BLE provisioning and nRF Mesh networking, which also carries OTA firmware updates to the hardware. The app is published on Google Play.",
+    ],
+    contributions: [
+      "Implemented BLE provisioning and nRF Mesh networking for device onboarding.",
+      "Built OTA firmware update workflows for smart home hardware.",
+      "Integrated AWS Cognito (OAuth 2.0) and AWS Amplify for authentication, device provisioning and device management.",
+      "Developed scenes, automations and device control in Jetpack Compose on MVVM with Hilt.",
+      "Implemented MQTT publish/subscribe for real-time bidirectional communication with the hardware, and automated releases with Fastlane.",
+    ],
+    engineering: [
+      { label: "BLE & mesh", detail: "BLE provisioning and nRF Mesh networking." },
+      { label: "Firmware", detail: "OTA firmware updates to connected devices." },
+      { label: "Authentication", detail: "OAuth 2.0 via AWS Cognito; cloud integration via AWS Amplify." },
+      { label: "Messaging", detail: "MQTT for real-time device communication." },
+      { label: "Architecture", detail: "MVVM with Hilt and Jetpack Compose." },
+    ],
+    tech: ["Kotlin", "Jetpack Compose", "MVVM", "Hilt", "BLE", "nRF Mesh", "MQTT", "AWS Cognito", "AWS Amplify", "Fastlane"],
+    distribution: ["Google Play"],
+    links: {
+      playStore: "https://play.google.com/store/apps/details?id=com.mtronic.smarthome",
+    },
+    screenshots: [
+      { src: "/images/projects/mtronic/1.webp", alt: "MTronic home screen with scenes, rooms and recently used devices", width: 800, height: 1422 },
+      { src: "/images/projects/mtronic/2.webp", alt: "MTronic automations list with a toggle to enable each automation", width: 800, height: 1422 },
+      { src: "/images/projects/mtronic/3.webp", alt: "MTronic scenes list confirming that a Good Morning scene was created", width: 800, height: 1422 },
+      { src: "/images/projects/mtronic/4.webp", alt: "MTronic device cards for a fan dimmer, touch panels and a power node, each with an on/off toggle", width: 800, height: 1422 },
+    ],
+    screenshotCredit: "Screenshots: Google Play listing © MTronic",
+    featured: true,
+  },
+  {
+    slug: "mia-vitals",
+    name: "Mia Vitals",
+    tagline: "Flutter telemedicine & remote patient monitoring app",
+    seoTitle: "Mia Vitals: Flutter Telemedicine App",
+    company: "AI Nexus Healthcare",
+    role: "Senior Mobile Developer",
+    period: "Aug 2022 – Mar 2024",
+    domain: "Healthcare · Telemedicine",
+    platforms: ["Flutter", "Android", "iOS"],
+    summary:
+      "Flutter telemedicine app with 10,000+ active users, featuring camera-based vital-sign capture, live clinician dashboards and secure video consultations.",
+    overview: [
+      "Mia Vitals is a telemedicine and remote patient monitoring platform. Patients capture biometric vitals through face and finger detection on the phone camera, and clinicians follow the results on live dashboards and in secure video consultations.",
+      "The Flutter app serves 10,000+ active users and is published on the App Store and Google Play.",
+    ],
+    contributions: [
+      "Built the app in Flutter with BLoC state management.",
+      "Implemented real-time biometric monitoring from camera frame streaming, using CameraX and Socket.IO to feed clinician dashboards.",
+      "Implemented SSL certificate pinning, encrypted REST APIs and JWT authentication to support healthcare data security and privacy requirements.",
+      "Integrated Stripe payments with fraud-prevention rules and Google Maps with custom geofencing.",
+      "Profiled with Flutter DevTools to reduce memory use and load times; maintained 80%+ coverage across unit, widget and integration tests.",
+    ],
+    engineering: [
+      { label: "Real-time", detail: "Socket.IO streams for live vital-sign dashboards." },
+      { label: "Camera pipeline", detail: "Camera frame streaming with CameraX for face and finger vital detection." },
+      { label: "Security", detail: "SSL certificate pinning, encrypted REST APIs, JWT authentication." },
+      { label: "Payments & maps", detail: "Stripe with fraud-prevention rules; Google Maps with custom geofencing." },
+      { label: "Testing", detail: "Unit, widget and integration tests above 80% coverage." },
+      { label: "Monitoring", detail: "Firebase Analytics and Crashlytics." },
+    ],
+    tech: ["Flutter", "Dart", "BLoC", "Socket.IO", "CameraX", "Stripe", "Firebase", "Google Maps", "SSL Pinning", "JWT"],
+    distribution: ["App Store", "Google Play"],
+    links: { website: "https://www.miavitals.com/" },
+    featured: true,
+  },
+  {
+    slug: "mafell",
+    name: "Mafell ZAS",
+    tagline: "Flutter roof-tile cutting calculator",
+    seoTitle: "Mafell ZAS: Flutter Roof-Tile Cutting App",
+    company: "MRS Technologies",
+    client: "MAFELL AG",
+    role: "Senior Software Engineer",
+    domain: "Construction tech",
+    platforms: ["Flutter", "Android", "iOS"],
+    summary:
+      "Offline-first Flutter app that calculates roof-tile cuts for valleys, hips, eaves and verges, with custom cutting-angle algorithms rendered on Canvas.",
+    overview: [
+      "Mafell ZAS is a construction app published by MAFELL AG, built in Flutter for calculating roof-tile cuts. Users pick a roof type (valley, hip, rising eaves or sloped verge) and enter the measurements; the app computes each tile's cutting angle and setting value with custom algorithms and renders the tile rows with Flutter Canvas and CustomPainter.",
+      "Data is persisted offline-first in Drift with versioned schema migrations across app updates, and the codebase is backed by a suite of 3,000+ unit and widget tests. The app is published on Google Play and the App Store.",
+    ],
+    contributions: [
+      "Implemented custom cutting-angle algorithms and their rendering with CustomPainter and Canvas.",
+      "Designed the offline-first data layer on Drift with versioned schema migrations.",
+      "Wrote and maintained 3,000+ unit and widget tests.",
+    ],
+    engineering: [
+      { label: "Rendering", detail: "Flutter Canvas and CustomPainter for tile-row and cut visualisation." },
+      { label: "Persistence", detail: "Drift database, offline-first, with versioned schema migrations." },
+      { label: "Testing", detail: "3,000+ unit and widget tests." },
+    ],
+    tech: ["Flutter", "Dart", "CustomPainter", "Canvas", "Drift", "Schema Migrations", "Unit / Widget Testing"],
+    distribution: ["Google Play", "App Store"],
+    links: {
+      playStore: "https://play.google.com/store/apps/details?id=com.mafell.zas",
+      // Listed in the Austrian storefront only; the region-free URL returns 404.
+      appStore: "https://apps.apple.com/at/app/mafell-zas/id6745941412",
+    },
+    screenshots: [
+      { src: "/images/projects/mafell/1.webp", alt: "Mafell ZAS roof-type selection: valley, hip, rising eaves and sloped verge", width: 800, height: 1737 },
+      { src: "/images/projects/mafell/2.webp", alt: "Mafell ZAS result screen visualising tile rows and cut angles along a roof valley", width: 800, height: 1737 },
+      { src: "/images/projects/mafell/3.webp", alt: "Mafell ZAS list view of the calculated tile cuts for each row", width: 800, height: 1737 },
+      { src: "/images/projects/mafell/4.webp", alt: "Mafell ZAS detail of a single tile cut with its angle and setting value", width: 800, height: 1737 },
+    ],
+    screenshotCredit: "Screenshots: Google Play listing © MAFELL AG",
+    featured: false,
+  },
+  {
+    slug: "foodrunner",
+    name: "FoodRunner",
+    tagline: "Android food delivery platform",
+    seoTitle: "FoodRunner: Android Food Delivery Platform",
+    company: "Eikon7 Creative",
+    role: "Team Lead, Mobile Development",
+    period: "Oct 2018 – Apr 2021",
+    domain: "E-commerce · Food delivery",
+    platforms: ["Android"],
+    summary:
+      "Three-app delivery ecosystem (Customer, Rider and Restaurant) with live GPS order tracking, chat, geofencing, local payments and a rider wallet.",
+    overview: [
+      "FoodRunner is an on-demand food delivery platform made up of three native Android apps for customers, riders and restaurants. It covers ordering, real-time GPS order tracking, live chat, geofencing and revenue analytics.",
+      "I led the five-engineer mobile team that built and shipped the ecosystem. The apps are no longer listed on Google Play; the published Android builds are still available on APKPure.",
+    ],
+    contributions: [
+      "Led a team of five engineers across the Customer, Rider and Restaurant apps, built in Java with MVVM.",
+      "Implemented real-time GPS order tracking with the Google Maps SDK, geofencing for location-based restaurant suggestions, and Socket.IO live order chat.",
+      "Added Zendesk real-time support chat and Facebook SDK integration.",
+      "Integrated JazzCash, Easypaisa and Bank Alfalah payments, an in-app wallet and an automated rider salary engine.",
+      "Rolled out the Firebase suite: FCM, Authentication, Crashlytics, Analytics, In-App Messaging and Remote Config feature flags.",
+      "Ran releases with phased rollouts and hotfix management.",
+    ],
+    engineering: [
+      { label: "Maps & location", detail: "Google Maps SDK, live order tracking and geofencing." },
+      { label: "Real-time", detail: "Socket.IO for live order chat; Zendesk for customer support chat." },
+      { label: "Payments", detail: "JazzCash, Easypaisa and Bank Alfalah; in-app wallet; rider disbursement." },
+      { label: "Firebase", detail: "FCM, Authentication, Crashlytics, Analytics, In-App Messaging, Remote Config." },
+      { label: "Leadership", detail: "Team of five; code reviews and MVVM / Clean Architecture standards." },
+    ],
+    tech: ["Java", "Android", "MVVM", "Google Maps SDK", "Socket.IO", "Firebase", "JazzCash", "Easypaisa", "Bank Alfalah", "Geofencing", "Zendesk"],
+    distribution: [],
+    links: {
+      other: [
+        {
+          label: "Customer app",
+          caption: "Android APK on APKPure",
+          icon: "customer",
+          href: "https://apkpure.com/foodrunner-speedy-food-delivery/com.app.FoodRunner",
+        },
+        {
+          label: "Rider app",
+          caption: "Android APK on APKPure",
+          icon: "rider",
+          href: "https://apkpure.com/fr-rider/com.app.foodrunnerdriver",
+        },
+        {
+          label: "Restaurant app",
+          caption: "Android APK on APKPure",
+          icon: "restaurant",
+          href: "https://apkpure.com/fr-restaurant/com.app.resturantfoodrunnerapps",
+        },
+      ],
+    },
+    featured: false,
+  },
+];
+
+export const featuredProjects = projects.filter((p) => p.featured);
+export const moreProjects = projects.filter((p) => !p.featured);
+
+export function getProject(slug: string) {
+  return projects.find((p) => p.slug === slug);
+}

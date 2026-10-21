@@ -1,0 +1,73 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run lint
+
+      # Route types (PageProps, LayoutProps) live in .next/types and must be generated first.
+      - run: npx next typegen && npx tsc --noEmit
+
+      - name: Build static export
+        run: npm run build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+          # Repository variables (Settings > Secrets and variables > Actions > Variables).
+          # NEXT_PUBLIC_* values end up in the browser bundle, so they are variables, not secrets.
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL }}
+          NEXT_PUBLIC_CF_ANALYTICS_TOKEN: ${{ vars.NEXT_PUBLIC_CF_ANALYTICS_TOKEN }}
+          NEXT_PUBLIC_FORMSPREE_ID: ${{ vars.NEXT_PUBLIC_FORMSPREE_ID }}
+          NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }}
+
+      - name: Check the site URL
+        run: |
+          if grep -rq "vercel.app" out; then
+            echo "out/ still references vercel.app; check NEXT_PUBLIC_SITE_URL" >&2
+            exit 1
+          fi
+
+      # No static_site_generator option: it would inject a basePath into next.config.
+      - if: github.ref == 'refs/heads/main'
+        uses: actions/configure-pages@v6
+
+      - if: github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: out
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
